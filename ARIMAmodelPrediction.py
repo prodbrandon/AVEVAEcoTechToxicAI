@@ -136,8 +136,8 @@ mercury_accuracy = mercury_r2 * 100  # Convert R² score to percentage
 zinc_accuracy = zinc_r2 * 100  # Convert R² score to percentage
 
 # Print the MSE and Accuracy
-print(f'Mercury Model MSE: {mercury_mse}, Mercury Model Accuracy: {mercury_accuracy:.2f}%')
-print(f'Zinc Model MSE: {zinc_mse}, Zinc Model Accuracy: {zinc_accuracy:.2f}%')
+# print(f'Mercury Model MSE: {mercury_mse}, Mercury Model Accuracy: {mercury_accuracy:.2f}%')
+# print(f'Zinc Model MSE: {zinc_mse}, Zinc Model Accuracy: {zinc_accuracy:.2f}%')
 
 # Display the future forecast
 print(forecast_df)
