@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://pyscript.net/snapshots/2023.09.1.RC2/core.css">
+    <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC2/core.js"></script>
+
+    <title>Mining Hackathon Project with ARIMA and Gen AI models</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+    
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e1f29 0%, #292c35 100%);
+            color: #f4f4f9;
+        }
+        /* Navigation bar styles */
+        nav {
+            background-color: rgba(44, 62, 80, 0.9);
+            padding: 15px 0;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.5s;
+        }
+    
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+    
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+    
+        nav ul li a {
+            color: #fff;
+            padding: 10px 25px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: color 0.3s, background-color 0.3s;
+        }
+    
+        nav ul li a:hover {
+            background-color: #1abc9c;
+            border-radius: 25px;
+            color: #000;
+            box-shadow: 0 0 10px #1abc9c, 0 0 20px #1abc9c;
+        }
+    
+        /* Welcome Section */
+        #welcome {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #002b5b, #003366); /* Dark blue gradient */
+            color: white;
+            padding: 0 20px;
+        }
+    
+        #welcome h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+    
+        #welcome p {
+            font-size: 24px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+    
+        #welcome button {
+            background-color: white;
+            color: #002b5b; /* Dark blue color for the button text */
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+    
+        #welcome button:hover {
+            background-color: #003366;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 0 10px #003366, 0 0 20px #002b5b;
+        }
+
+        /* Rest of your styles remain the same */
+        section {
+            padding: 100px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+    
+        section h2 {
+            color: #1abc9c;
+            margin-bottom: 20px;
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #1abc9c;
+        }
+    
+        section p {
+            color: #a0a5b0;
+            font-size: 20px;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Button styling */
+        button {
+            background-color: #1abc9c;
+            border: none;
+            padding: 15px 40px;
+            color: white;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0, 255, 153, 0.3);
+        }
+    
+        button:hover {
+            background-color: #16a085;
+            transform: translateY(-3px);
+            box-shadow: 0 0 10px #16a085, 0 0 20px #1abc9c;
+        }
+
+        /* Rest of your styles continue... */
+    </style>    
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#welcome">Home</a></li>
+            <li><a href="#arima">ARIMA Model</a></li>
+            <li><a href="#genai">Gen AI Model</a></li>
+            <li><a href="#dataset">Dataset</a></li>
+            <li><a href="#about">About Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Welcome Section -->
+    <section id="welcome">
+        <h1>Welcome to Team Lagoon Logician</h1>
+        <p>Logicians of the Lagoon, Innovators of AI</p>
+        <button onclick="scrollToSection('arima')">Explore Our Models</button>
+    </section>
+
+    <!-- ARIMA Model Section -->
+    <section id="arima">
+        <h2>ARIMA Model</h2>
+        <p>Click to load the ARIMA model.</p>
+        <button id="ARIMA-Button">Run ARIMA Model</button>
+    </section>
+    <script>
+        document.getElementById('ARIMA-Button').addEventListener('click', function() {
+            // Make an HTTP POST request to the Flask server to run the script
+            fetch('/run-script', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the output from the Python script
+                if (data.output) {
+                    document.getElementById('output').textContent = data.output;
+                } else if (data.error) {
+                    document.getElementById('output').textContent = "Error: " + data.error;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+
+    <!-- Gen AI Model Section -->
+    <section id="genai">
+        <h2>Gen AI Model</h2>
+        <p>Click to load the Gen AI model.</p>
+        <button id="GenAI-button">Run Gen AI Model</button>
+    </section>
+    <script>
+        document.getElementById('GenAI-button').addEventListener('click', function() {
+            // Make an HTTP POST request to the Flask server to run the script
+            fetch('/run-genai', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the output from the Python script
+                if (data.output) {
+                    document.getElementById('output').textContent = data.output;
+                } else if (data.error) {
+                    document.getElementById('output').textContent = "Error: " + data.error;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+
+    <!-- Dataset Section -->
+    <section id="dataset">
+        <h2>Dataset</h2>
+        <p>Click to view the dataset used for our ARIMA and Gen AI models.</p>
+        <a href="..\metal_content_in_dirt.csv" download="metal_content_in_dirt.csv">
+            <button>View Dataset</button>
+        </a>
+        <!-- <button onclick="showDataset()">View Dataset</button> -->
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about">
+        <h2>About Us</h2>
+        <p>Our team is made up of 5 enthusiastic ASU Barrett sophomore students who all think Saahir is Batman.</p>
+
+        <div>
+            <h3>Sahil Pai</h3>
+            <p>Computer Science Major</p>
+            <p>Email: <a href="mailto:sapai1@asu.edu">sapai1@asu.edu</a></p>
+        </div>
+        <div>
+            <h3>Saahir Khan</h3>
+            <p>Computer Science Major</p>
+            <p>Email: <a href="mailto:swkhan@asu.edu">swkhan@asu.edu</a></p>
+        </div>
+        <div>
+            <h3>Sourish Tiwari</h3>
+            <p>Computer Science Major</p>
+            <p>Email: <a href="mailto:stiwar45@asu.edu">stiwar45@asu.edu</a></p>
+        </div>
+        <div>
+            <h3>Mahika Patil</h3>
+            <p>Computer Science Major</p>
+            <p>Email: <a href="mailto:mspatil3@asu.edu">mspatil3@asu.edu</a></p>
+        </div>
+        <div>
+            <h3>Dhruv Mantri</h3>
+            <p>CSE Major</p>
+            <p>Email: <a href="mailto:dmantri@asu.edu">dmantri@asu.edu</a></p>
+        </div>
+    </section>
+
+    <!-- Image Section -->
+<section id="image-section">
+    <img src="images/14624.jpg" alt="Technology Circuit Design" style="max-width: 100%; height: auto; border-radius: 10px; display: block; margin: 0 auto;">
+</section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Mining Hackathon Project Team. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function runARIMAScript() {
+            document.getElementById('run-script-button').addEventListener('click', function() {
+            // Make an HTTP POST request to the Flask server to run the script
+            fetch('/run-script', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the output from the Python script
+                if (data.output) {
+                    document.getElementById('output').textContent = data.output;
+                } else if (data.error) {
+                    document.getElementById('output').textContent = "Error: " + data.error;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+        }
+
+        function runGenAIScript() {
+            alert('Loading Gen AI model...');
+        }
+
+        function showDataset() {
+            alert('Displaying dataset...');
+        }
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</head>
+</body>
+</html>
