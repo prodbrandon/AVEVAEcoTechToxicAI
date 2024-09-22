@@ -10,6 +10,8 @@ from tkinter.filedialog import askopenfilename
 import warnings
 from statsmodels.tools.sm_exceptions import ValueWarning
 
+#Written by Sahil Pai
+
 # Suppress specific warnings related to statsmodels date index and future warnings
 warnings.filterwarnings("ignore", category=ValueWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
