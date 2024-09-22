@@ -4,6 +4,8 @@ import openai
 import pandas as pd
 import warnings
 
+#Written by Sahil Pai
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 # Set up your OpenAI API key
 openai.api_key = 'API KEY HERE'
