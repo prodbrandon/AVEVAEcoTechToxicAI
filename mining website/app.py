@@ -2,7 +2,7 @@
 from flask import Flask, render_template, jsonify
 import subprocess
 
-#Written by Sahil Pai and Dhruv Mantri
+#Written by Sahil Pai and Brandon Lim
 
 app = Flask(__name__)
 
